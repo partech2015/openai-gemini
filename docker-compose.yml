@@ -1,0 +1,9 @@
+services:
+  deno-app:
+    image: openai-gemini
+    container_name: openai-gemini
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"

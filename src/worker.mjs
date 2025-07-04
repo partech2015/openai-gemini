@@ -104,13 +104,15 @@ async function handleEmbeddings (req, apiKey) {
   if (req.model.startsWith("models/")) {
     model = req.model;
   } else {
-    if (!req.model.startsWith("gemini-")) {
-      req.model = DEFAULT_EMBEDDINGS_MODEL;
-    }
+    // if (!req.model.startsWith("gemini-")) {
+    //   req.model = DEFAULT_EMBEDDINGS_MODEL;
+    // }
     model = "models/" + req.model;
   }
   if (!Array.isArray(req.input)) {
-    req.input = [ req.input ];
+    req.input = [ String(req.input) ]; // 确保单个输入也是字符串
+  } else {
+    req.input = req.input.map(String); // 确保数组中的每个元素都是字符串
   }
   const response = await fetch(`${BASE_URL}/${API_VERSION}/${model}:batchEmbedContents`, {
     method: "POST",
